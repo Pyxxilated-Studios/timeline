@@ -1,26 +1,38 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 
-import Timeline from "../timeline";
+import { RootState, RootDispatch } from "../../store";
+import { UserState } from "../../store/user/types";
 
 import { Repository } from "../../types";
 
-const LandingPage = () => {
-  const [username, setUsername] = useState("");
+import { setUsername, setRepositories } from "../../store/user/actions";
+
+import Timeline from "../timeline";
+
+interface StateProps {
+  user: UserState;
+}
+
+interface DispatchProps {
+  setUsername: (username: string) => void;
+  setRepositories: (repositories: Repository[]) => void;
+}
+
+type Props = StateProps & DispatchProps;
+
+const LandingPage = (props: Props) => {
   const [password, setPassword] = useState("");
-  const [timelineRepositories, setTimelineRepositories] = useState<
-    Repository[]
-  >();
-  const [fetched, setFetched] = useState(false);
 
   return (
     <>
-      {!fetched ? (
+      {props.user.repositories.length === 0 ? (
         <>
           <label htmlFor="username">Username</label>
           <input
             id="username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            value={props.user.username}
+            onChange={(event) => props.setUsername(event.target.value)}
           ></input>
           <label htmlFor="password">Password</label>
           <input
@@ -31,16 +43,18 @@ const LandingPage = () => {
           ></input>
           <button
             onClick={() => {
-              fetch(`https://api.github.com/users/${username}/repos`, {
-                headers: {
-                  Authorization: "Basic " + btoa(username + ":" + password),
-                },
-              })
+              fetch(
+                `https://api.github.com/users/${props.user.username}/repos`,
+                {
+                  headers: {
+                    Authorization:
+                      "Basic " + btoa(props.user.username + ":" + password),
+                  },
+                }
+              )
                 .then((resp) => resp.json())
-                .then((data) => {
-                  setTimelineRepositories(data);
-                  setFetched(true);
-                });
+                .then((data) => props.setRepositories(data))
+                .catch((error) => console.log("There was an error:", error));
             }}
           >
             Authorise
@@ -48,12 +62,21 @@ const LandingPage = () => {
         </>
       ) : (
         <Timeline
-          username={username}
-          repositories={timelineRepositories || []}
+          username={props.user.username}
+          repositories={props.user.repositories || []}
         />
       )}
     </>
   );
 };
 
-export default LandingPage;
+const mapStateToProps = (state: RootState): StateProps => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch: RootDispatch): DispatchProps => ({
+  setUsername: (username) => dispatch(setUsername(username)),
+  setRepositories: (repositories) => dispatch(setRepositories(repositories)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);
