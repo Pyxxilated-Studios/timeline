@@ -15,12 +15,11 @@ function isElementInViewport(el: Element) {
 
   console.log(rect);
 
-  return (
-    rect.top >= -rect.height / 2 &&
-    rect.left >= 0 &&
-    rect.bottom - rect.height / 2 <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  return !(
+    rect.top >= (window.innerHeight || document.documentElement.clientHeight) ||
+    rect.left >= (window.innerWidth || document.documentElement.clientWidth) ||
+    rect.bottom <= 0 ||
+    rect.right <= 0
   );
 }
 
