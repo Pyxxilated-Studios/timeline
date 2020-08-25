@@ -3,6 +3,9 @@ import {
   SET_USERNAME,
   SET_REPOSITORIES,
   SET_LOGGED_IN,
+  SET_STATE,
+  SET_TOKEN,
+  SET_FETCHED,
 } from "./types";
 
 import { Repository } from "../../types";
@@ -23,4 +26,16 @@ export const setRepositories = (repositories: Repository[]): UserAction => {
 
 export const setLoggedIn = (loggedIn: boolean): UserAction => {
   return { type: SET_LOGGED_IN, loggedIn };
+};
+
+export const setState = (state: string): UserAction => {
+  return { type: SET_STATE, state };
+};
+
+export const setToken = (token: string): UserAction => {
+  return { type: SET_TOKEN, token };
+};
+
+export const setFetched = (fetched: boolean): UserAction => {
+  return { type: SET_FETCHED, fetched };
 };

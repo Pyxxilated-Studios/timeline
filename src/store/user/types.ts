@@ -4,6 +4,9 @@ export interface UserState {
   username: string;
   repositories: Repository[];
   loggedIn: boolean;
+  state: string;
+  token: string;
+  fetched: boolean;
 }
 
 export const SET_USERNAME = "SET_USERNAME";
@@ -24,7 +27,28 @@ interface SetLoggedInAction {
   loggedIn: boolean;
 }
 
+export const SET_STATE = "SET_STATE";
+interface SetStateAction {
+  type: typeof SET_STATE;
+  state: string;
+}
+
+export const SET_TOKEN = "SET_TOKEN";
+interface SetTokenAction {
+  type: typeof SET_TOKEN;
+  token: string;
+}
+
+export const SET_FETCHED = "SET_FETCHED";
+interface SetFetchedAction {
+  type: typeof SET_FETCHED;
+  fetched: boolean;
+}
+
 export type UserAction =
   | SetUsernameAction
   | SetRepositoriesAction
-  | SetLoggedInAction;
+  | SetLoggedInAction
+  | SetStateAction
+  | SetTokenAction
+  | SetFetchedAction;

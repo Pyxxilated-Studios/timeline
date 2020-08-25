@@ -1,17 +1,12 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import { RootState, RootDispatch } from "../../store";
 import { UserState } from "../../store/user/types";
 
-import { Repository } from "../../types";
-
-import {
-  setUsername,
-  setRepositories,
-  setLoggedIn,
-} from "../../store/user/actions";
+import { setUsername, setState } from "../../store/user/actions";
 
 import Header from "../../components/header";
 
@@ -23,14 +18,17 @@ interface StateProps {
 
 interface DispatchProps {
   setUsername: (username: string) => void;
-  setRepositories: (repositories: Repository[]) => void;
-  setLoggedIn: () => void;
+  setState: (state: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
 
 const LoginPage: FunctionComponent<Props> = (props: Props) => {
-  const [password, setPassword] = useState("");
+  useEffect(() => {
+    if (props.user.state.length === 0) {
+      props.setState(uuidv4());
+    }
+  }, [props]);
 
   if (props.user.loggedIn) {
     return <Redirect to="/timeline" />;
@@ -47,42 +45,12 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
             value={props.user.username}
             onChange={(event) => props.setUsername(event.target.value)}
           />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <Link
+          <a
             type="submit"
-            to="/timeline"
-            onClick={() => {
-              fetch(
-                `https://api.github.com/users/${props.user.username}/repos`,
-                {
-                  headers: {
-                    Authorization:
-                      "Basic " + btoa(props.user.username + ":" + password),
-                  },
-                }
-              )
-                .then(async (resp) => {
-                  if (resp.ok) {
-                    return resp.json();
-                  }
-
-                  throw Error(`Unable to connect: ${resp.status}`);
-                })
-                .then((data) => {
-                  props.setRepositories(data);
-                  props.setLoggedIn();
-                })
-                .catch((error) => console.log("There was an error:", error));
-            }}
+            href={`https://github.com/login/oauth/authorize?login=${props.user.username}&client_id=${process.env.REACT_APP_CLIENT_ID}&state=${props.user.state}`}
           >
             Login
-          </Link>
+          </a>
         </form>
       </section>
     </>
@@ -95,8 +63,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 const mapDispatchToProps = (dispatch: RootDispatch): DispatchProps => ({
   setUsername: (username) => dispatch(setUsername(username)),
-  setRepositories: (repositories) => dispatch(setRepositories(repositories)),
-  setLoggedIn: () => dispatch(setLoggedIn(true)),
+  setState: (state) => dispatch(setState(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

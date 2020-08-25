@@ -4,12 +4,18 @@ import {
   SET_USERNAME,
   SET_REPOSITORIES,
   SET_LOGGED_IN,
+  SET_TOKEN,
+  SET_STATE,
+  SET_FETCHED,
 } from "./types";
 
 const initialState: UserState = {
   username: "",
   repositories: [],
   loggedIn: false,
+  state: "",
+  token: "",
+  fetched: false,
 };
 
 const UserReducer = (state = initialState, action: UserAction): UserState => {
@@ -24,6 +30,18 @@ const UserReducer = (state = initialState, action: UserAction): UserState => {
 
     case SET_LOGGED_IN: {
       return { ...state, loggedIn: action.loggedIn };
+    }
+
+    case SET_STATE: {
+      return { ...state, state: action.state };
+    }
+
+    case SET_TOKEN: {
+      return { ...state, token: action.token };
+    }
+
+    case SET_FETCHED: {
+      return { ...state, fetched: action.fetched };
     }
 
     default:
