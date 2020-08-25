@@ -34,6 +34,7 @@ const Load = connect(
 )((props: Props) => {
   const query = queryString.parse(props.location.search);
 
+  // Fetch the token via proxy
   fetch(`/authenticate/${query.code}`, {})
     .then((resp) => resp.json())
     .then((data) => {
