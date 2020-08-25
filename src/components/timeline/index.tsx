@@ -12,10 +12,13 @@ const moment = require("moment");
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
 function isElementInViewport(el: Element) {
   const rect = el.getBoundingClientRect();
+
+  console.log(rect);
+
   return (
-    rect.top >= 0 &&
+    rect.top >= -rect.height / 2 &&
     rect.left >= 0 &&
-    rect.bottom <=
+    rect.bottom - rect.height / 2 <=
       (window.innerHeight || document.documentElement.clientHeight) &&
     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
