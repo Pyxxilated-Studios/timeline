@@ -34,13 +34,11 @@ const Load = connect(
 )((props: Props) => {
   const query = queryString.parse(props.location.search);
 
-  fetch(
-    `https://github.com/login/oauth/access_token?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&code=${query.code}&state=${props.user.state}`,
-    { method: "POST", headers: { Accept: "application/json" } }
-  )
+  fetch(`/authenticate/${query.code}`, {})
     .then((resp) => resp.json())
     .then((data) => {
-      props.setToken(data.access_token);
+      console.log(data);
+      props.setToken(data.token);
       props.setLoggedIn();
     });
 
