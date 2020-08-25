@@ -14,8 +14,6 @@ const moment = require("moment");
 const isElementInViewport = (el: Element) => {
   const rect = el.getBoundingClientRect();
 
-  console.log(rect);
-
   return !(
     rect.top >= (window.innerHeight || document.documentElement.clientHeight) ||
     rect.left >= (window.innerWidth || document.documentElement.clientWidth) ||
@@ -43,13 +41,15 @@ type Props = StateProps;
 
 const Timeline: FunctionComponent<Props> = (props: Props) => {
   useEffect(() => {
+    callbackFunc();
+
     // listen for events
-    window.addEventListener("load", callbackFunc);
+    // window.addEventListener("load", callbackFunc);
     window.addEventListener("resize", callbackFunc);
     window.addEventListener("scroll", callbackFunc);
 
     return () => {
-      window.removeEventListener("load", callbackFunc);
+      // window.removeEventListener("load", callbackFunc);
       window.removeEventListener("resize", callbackFunc);
       window.removeEventListener("scroll", callbackFunc);
     };

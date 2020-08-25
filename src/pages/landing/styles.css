@@ -1,0 +1,22 @@
+.center {
+  display: flex;
+
+  justify-content: center;
+  align-content: center;
+}
+
+.login {
+  background: #f45b69;
+  color: white;
+
+  margin: 1em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.5em;
+
+  text-decoration: none;
+}
+
+.login:hover {
+  background: white;
+  color: #f45b69;
+}

@@ -1,0 +1,20 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0.5em 1em;
+  width: 25%;
+
+  background-color: #f45b69;
+  border-radius: 0.5em;
+}
+
+.login-form a {
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
+
+.login-form a:hover {
+  color: black;
+}
