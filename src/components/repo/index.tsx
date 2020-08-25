@@ -1,19 +1,25 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 
 import { Repository } from "../../types";
 
 import moment from "moment";
 
-const Repo: React.FunctionComponent<{
+interface OwnProps {
   repository: Repository;
   side: "right" | "left";
-}> = ({ repository, side }) => {
+}
+
+type Props = OwnProps;
+
+const Repo: FunctionComponent<Props> = (props: Props) => {
   return (
     <li>
       <div>
-        <h1>{repository.name}</h1>
-        <time>{moment(repository.created_at).format("MMMM Do YYYY")}</time>
-        {repository.description}
+        <h1>{props.repository.name}</h1>
+        <time>
+          {moment(props.repository.created_at).format("MMMM Do YYYY")}
+        </time>
+        {props.repository.description}
       </div>
     </li>
   );

@@ -1,39 +1,3 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font: normal 16px/1.5 "Helvetica Neue", sans-serif;
-  background: #456990;
-  color: #fff;
-  overflow-x: hidden;
-  padding-bottom: 50px;
-} /* INTRO SECTION
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.intro {
-  background: #f45b69;
-  padding: 100px 0;
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-h1 {
-  font-size: 2.5rem;
-}
-
-/* TIMELINE
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
 .timeline ul {
   background: #456990;
   padding: 50px 0;

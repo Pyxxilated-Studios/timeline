@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
-
-import { Repository } from "../../types";
+import React, { useEffect, FunctionComponent } from "react";
 
 import Repo from "../repo";
 
 import "./styles.css";
+import { UserState } from "../../store/user/types";
+import { RootState } from "../../store";
+import { connect } from "react-redux";
 
 const moment = require("moment");
 
 // check if an element is in viewport
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
-function isElementInViewport(el: Element) {
+const isElementInViewport = (el: Element) => {
   const rect = el.getBoundingClientRect();
 
   console.log(rect);
@@ -21,7 +22,7 @@ function isElementInViewport(el: Element) {
     rect.bottom <= 0 ||
     rect.right <= 0
   );
-}
+};
 
 const callbackFunc = () => {
   const items = document.querySelectorAll(".timeline li");
@@ -34,10 +35,13 @@ const callbackFunc = () => {
   }
 };
 
-const Timeline: React.FunctionComponent<{
-  username: string;
-  repositories: Repository[];
-}> = ({ username, repositories }) => {
+interface StateProps {
+  user: UserState;
+}
+
+type Props = StateProps;
+
+const Timeline: FunctionComponent<Props> = (props: Props) => {
   useEffect(() => {
     // listen for events
     window.addEventListener("load", callbackFunc);
@@ -52,27 +56,24 @@ const Timeline: React.FunctionComponent<{
   }, []);
 
   return (
-    <>
-      <section className="intro">
-        <div className="container">
-          <h1>Github Repository Timeline for {username}</h1>
-        </div>
-      </section>
-      <section className="timeline">
-        <ul>
-          {repositories
-            .sort((r1, r2) => moment(r1.created_at) - moment(r2.created_at))
-            .map((repo, idx) => (
-              <Repo
-                key={repo.id}
-                side={idx % 2 === 0 ? "left" : "right"}
-                repository={repo}
-              />
-            ))}
-        </ul>
-      </section>
-    </>
+    <section className="timeline">
+      <ul>
+        {props.user.repositories
+          .sort((r1, r2) => moment(r1.created_at) - moment(r2.created_at))
+          .map((repo, idx) => (
+            <Repo
+              key={repo.id}
+              side={idx % 2 === 0 ? "left" : "right"}
+              repository={repo}
+            />
+          ))}
+      </ul>
+    </section>
   );
 };
 
-export default Timeline;
+const mapStateToProps = (state: RootState): StateProps => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(Timeline);
