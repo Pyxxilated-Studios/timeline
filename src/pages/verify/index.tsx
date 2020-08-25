@@ -38,7 +38,6 @@ const Load = connect(
   fetch(`/authenticate/${query.code}`, {})
     .then((resp) => resp.json())
     .then((data) => {
-      console.log(data);
       props.setToken(data.token);
       props.setLoggedIn();
     });
