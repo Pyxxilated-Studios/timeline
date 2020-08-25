@@ -25,7 +25,7 @@ type Props = StateProps & DispatchProps;
 
 const LoginPage: FunctionComponent<Props> = (props: Props) => {
   useEffect(() => {
-    if (props.user.state.length === 0) {
+    if (!props.user.state || props.user.state.length === 0) {
       props.setState(uuidv4());
     }
   }, [props]);

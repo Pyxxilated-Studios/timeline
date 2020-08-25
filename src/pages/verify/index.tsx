@@ -40,7 +40,6 @@ const Load = connect(
   )
     .then((resp) => resp.json())
     .then((data) => {
-      console.log(data);
       props.setToken(data.access_token);
       props.setLoggedIn();
     });
