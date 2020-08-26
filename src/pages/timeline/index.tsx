@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Suspense } from "react";
+import React, { FunctionComponent, Suspense, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -17,7 +17,7 @@ interface StateProps {
 
 interface DispatchProps {
   setRepositories: (repositories: Repository[]) => void;
-  setFetched: () => void;
+  setFetched: (fetched: boolean) => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -28,13 +28,17 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 const mapDispatchToProps = (dispatch: RootDispatch): DispatchProps => ({
   setRepositories: (repositories) => dispatch(setRepositories(repositories)),
-  setFetched: () => dispatch(setFetched(true)),
+  setFetched: (fetched) => dispatch(setFetched(fetched)),
 });
 
 const LoadTimeline = connect(
   mapStateToProps,
   mapDispatchToProps
 )((props: Props) => {
+  const onReload = () => {
+    props.setFetched(false);
+  };
+
   if (!props.user.fetched) {
     fetch(`https://api.github.com/users/${props.user.username}/repos`, {
       headers: { Authorization: `token ${props.user.token}` },
@@ -42,9 +46,19 @@ const LoadTimeline = connect(
       .then((resp) => resp.json())
       .then((data) => {
         props.setRepositories(data);
-        props.setFetched();
+        props.setFetched(true);
       });
   }
+
+  useEffect(() => {
+    // Refresh the repositories everytime the user refreshes the page
+    window.onbeforeunload = onReload;
+
+    return () => {
+      // Remove this avility, otherwise it's possible that we'll endlessly refresh the repositories
+      window.onbeforeunload = () => {};
+    };
+  });
 
   return <Timeline />;
 });

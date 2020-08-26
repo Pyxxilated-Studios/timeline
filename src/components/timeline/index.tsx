@@ -56,7 +56,7 @@ const Timeline: FunctionComponent<Props> = (props: Props) => {
   }, []);
 
   return (
-    <section className="timeline">
+    <section className="timeline" id="timeline">
       <ul>
         {props.user.repositories
           .sort((r1, r2) => moment(r1.created_at) - moment(r2.created_at))
