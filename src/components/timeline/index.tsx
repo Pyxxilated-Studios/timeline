@@ -9,8 +9,6 @@ import { connect } from 'react-redux';
 
 import moment from 'moment';
 
-const myMoment: moment.Moment = moment('someDate');
-
 // check if an element is in viewport
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
 const isElementInViewport = (el: Element): boolean => {
