@@ -49,6 +49,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-          rsync -hrvz --delete -e "ssh -i ~/.ssh/key -o StrictHostKeyChecking=no" build gitlab@${{ secrets.SERVER_IP }}:/var/www/timeline/
+          mv build public
+          rsync -hrvz --delete -e "ssh -i ~/.ssh/key -o StrictHostKeyChecking=no" public gitlab@${{ secrets.SERVER_IP }}:/var/www/timeline/
         env:
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
