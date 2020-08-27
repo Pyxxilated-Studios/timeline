@@ -1,21 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 
-import Header from "../../components/header";
+import Header from '../../components/header';
 
-import "./styles.css";
+import './styles.css';
 
-const LandingPage = () => {
+const LandingPage: FunctionComponent = () => {
   return (
     <>
       <Header title="Timeline" />
 
       <section>
         <h2>About</h2>
-        <p>
-          Timeline is a project about projects: It will display your project
-          timeline on GitHub.
-        </p>
+        <p>Timeline is a project about projects: It will display your project timeline on GitHub.</p>
         <div className="center">
           <Link to="/login" className="login">
             Login

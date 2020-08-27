@@ -7,16 +7,16 @@ import {
   SET_TOKEN,
   SET_STATE,
   SET_FETCHED,
-  LOGOUT,
-} from "./types";
+  LOGOUT
+} from './types';
 
 const initialState: UserState = {
-  username: "",
+  username: '',
   repositories: [],
   loggedIn: false,
-  state: "",
-  token: "",
-  fetched: false,
+  state: '',
+  token: '',
+  fetched: false
 };
 
 const UserReducer = (state = initialState, action: UserAction): UserState => {

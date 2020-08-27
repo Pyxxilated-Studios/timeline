@@ -1,12 +1,12 @@
-import React, { Suspense, FunctionComponent } from "react";
-import { Redirect, RouteComponentProps } from "react-router-dom";
-import { connect } from "react-redux";
-import queryString from "query-string";
+import React, { Suspense, FunctionComponent } from 'react';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+import queryString from 'query-string';
 
-import { RootDispatch, RootState } from "../../store";
-import { UserState } from "../../store/user/types";
+import { RootDispatch, RootState } from '../../store';
+import { UserState } from '../../store/user/types';
 
-import { setLoggedIn, setToken } from "../../store/user/actions";
+import { setLoggedIn, setToken } from '../../store/user/actions';
 
 interface DispatchProps {
   setLoggedIn: () => void;
@@ -20,12 +20,12 @@ interface StateProps {
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  user: state.user,
+  user: state.user
 });
 
 const mapDispatchToProps = (dispatch: RootDispatch): DispatchProps => ({
-  setLoggedIn: () => dispatch(setLoggedIn(true)),
-  setToken: (token) => dispatch(setToken(token)),
+  setLoggedIn: (): void => dispatch(setLoggedIn(true)),
+  setToken: (token): void => dispatch(setToken(token))
 });
 
 const Load = connect(
@@ -45,17 +45,14 @@ const Load = connect(
   return <Redirect to="/timeline" />;
 });
 
-const VerifyLoginPage: FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps
-) => {
+const VerifyLoginPage: FunctionComponent<RouteComponentProps> = (props: RouteComponentProps) => {
   return (
     <Suspense
       fallback={
         <div>
           <h1>Loading...</h1>
         </div>
-      }
-    >
+      }>
       <Load {...props} />
     </Suspense>
   );
