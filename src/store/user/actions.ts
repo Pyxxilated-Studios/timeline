@@ -6,21 +6,22 @@ import {
   SET_STATE,
   SET_TOKEN,
   SET_FETCHED,
-} from "./types";
+  LOGOUT
+} from './types';
 
-import { Repository } from "../../types";
+import { Repository } from '../../types';
 
 export const setUsername = (username: string): UserAction => {
   return {
     type: SET_USERNAME,
-    username,
+    username
   };
 };
 
 export const setRepositories = (repositories: Repository[]): UserAction => {
   return {
     type: SET_REPOSITORIES,
-    repositories,
+    repositories
   };
 };
 
@@ -38,4 +39,8 @@ export const setToken = (token: string): UserAction => {
 
 export const setFetched = (fetched: boolean): UserAction => {
   return { type: SET_FETCHED, fetched };
+};
+
+export const logout = (): UserAction => {
+  return { type: LOGOUT };
 };

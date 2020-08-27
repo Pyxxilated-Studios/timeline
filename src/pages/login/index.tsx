@@ -1,16 +1,16 @@
-import React, { FunctionComponent, useEffect } from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import React, { FunctionComponent, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
-import { RootState, RootDispatch } from "../../store";
-import { UserState } from "../../store/user/types";
+import { RootState, RootDispatch } from '../../store';
+import { UserState } from '../../store/user/types';
 
-import { setUsername, setState } from "../../store/user/actions";
+import { setUsername, setState } from '../../store/user/actions';
 
-import Header from "../../components/header";
+import Header from '../../components/header';
 
-import "./styles.css";
+import './styles.css';
 
 interface StateProps {
   user: UserState;
@@ -37,18 +37,17 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
   return (
     <>
       <Header title="Login" />
-      <section style={{ marginTop: "1em" }}>
+      <section style={{ marginTop: '1em' }}>
         <form className="login-form">
           <label htmlFor="username">Username</label>
           <input
             id="username"
             value={props.user.username}
-            onChange={(event) => props.setUsername(event.target.value)}
+            onChange={(event): void => props.setUsername(event.target.value)}
           />
           <a
             type="submit"
-            href={`https://github.com/login/oauth/authorize?login=${props.user.username}&client_id=${process.env.REACT_APP_CLIENT_ID}&state=${props.user.state}`}
-          >
+            href={`https://github.com/login/oauth/authorize?login=${props.user.username}&client_id=${process.env.REACT_APP_CLIENT_ID}&state=${props.user.state}`}>
             Login
           </a>
         </form>
@@ -58,12 +57,12 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
 };
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  user: state.user,
+  user: state.user
 });
 
 const mapDispatchToProps = (dispatch: RootDispatch): DispatchProps => ({
-  setUsername: (username) => dispatch(setUsername(username)),
-  setState: (state) => dispatch(setState(state)),
+  setUsername: (username): void => dispatch(setUsername(username)),
+  setState: (state): void => dispatch(setState(state))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

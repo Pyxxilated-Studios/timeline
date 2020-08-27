@@ -1,17 +1,17 @@
-import React, { useEffect, FunctionComponent } from "react";
+import React, { useEffect, FunctionComponent } from 'react';
 
-import Repo from "../repo";
+import Repo from '../repo';
 
-import "./styles.css";
-import { UserState } from "../../store/user/types";
-import { RootState } from "../../store";
-import { connect } from "react-redux";
+import './styles.css';
+import { UserState } from '../../store/user/types';
+import { RootState } from '../../store';
+import { connect } from 'react-redux';
 
-const moment = require("moment");
+import moment from 'moment';
 
 // check if an element is in viewport
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
-const isElementInViewport = (el: Element) => {
+const isElementInViewport = (el: Element): boolean => {
   const rect = el.getBoundingClientRect();
 
   return !(
@@ -22,13 +22,13 @@ const isElementInViewport = (el: Element) => {
   );
 };
 
-const callbackFunc = () => {
-  const items = document.querySelectorAll(".timeline li");
-  for (var i = 0; i < items.length; i++) {
+const callbackFunc = (): void => {
+  const items = document.querySelectorAll('.timeline li');
+  for (let i = 0; i < items.length; i++) {
     if (isElementInViewport(items[i])) {
-      items[i].classList.add("in-view");
-    } else if (items[i].classList.contains("in-view")) {
-      items[i].classList.remove("in-view");
+      items[i].classList.add('in-view');
+    } else if (items[i].classList.contains('in-view')) {
+      items[i].classList.remove('in-view');
     }
   }
 };
@@ -45,13 +45,13 @@ const Timeline: FunctionComponent<Props> = (props: Props) => {
 
     // listen for events
     // window.addEventListener("load", callbackFunc);
-    window.addEventListener("resize", callbackFunc);
-    window.addEventListener("scroll", callbackFunc);
+    window.addEventListener('resize', callbackFunc);
+    window.addEventListener('scroll', callbackFunc);
 
-    return () => {
+    return (): void => {
       // window.removeEventListener("load", callbackFunc);
-      window.removeEventListener("resize", callbackFunc);
-      window.removeEventListener("scroll", callbackFunc);
+      window.removeEventListener('resize', callbackFunc);
+      window.removeEventListener('scroll', callbackFunc);
     };
   }, []);
 
@@ -59,13 +59,9 @@ const Timeline: FunctionComponent<Props> = (props: Props) => {
     <section className="timeline" id="timeline">
       <ul>
         {props.user.repositories
-          .sort((r1, r2) => moment(r1.created_at) - moment(r2.created_at))
+          .sort((r1, r2) => moment(r1.created_at).diff(moment(r2.created_at)))
           .map((repo, idx) => (
-            <Repo
-              key={repo.id}
-              side={idx % 2 === 0 ? "left" : "right"}
-              repository={repo}
-            />
+            <Repo key={repo.id} side={idx % 2 === 0 ? 'left' : 'right'} repository={repo} />
           ))}
       </ul>
     </section>
@@ -73,7 +69,7 @@ const Timeline: FunctionComponent<Props> = (props: Props) => {
 };
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  user: state.user,
+  user: state.user
 });
 
 export default connect(mapStateToProps)(Timeline);
