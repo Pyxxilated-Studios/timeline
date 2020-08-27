@@ -34,6 +34,8 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
     return <Redirect to="/timeline" />;
   }
 
+  console.log("CLIENT ID:", process.env.REACT_APP_CLIENT_ID);
+
   return (
     <>
       <Header title="Login" />
