@@ -49,6 +49,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
+          mv public _public
           mv build public
           rsync -hrvz --delete -e "ssh -i ~/.ssh/key -o StrictHostKeyChecking=no" public gitlab@${{ secrets.SERVER_IP }}:/var/www/timeline/
         env:
