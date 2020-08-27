@@ -45,10 +45,16 @@ interface SetFetchedAction {
   fetched: boolean;
 }
 
+export const LOGOUT = "LOGOUT";
+interface LogoutAction {
+  type: typeof LOGOUT;
+}
+
 export type UserAction =
   | SetUsernameAction
   | SetRepositoriesAction
   | SetLoggedInAction
   | SetStateAction
   | SetTokenAction
-  | SetFetchedAction;
+  | SetFetchedAction
+  | LogoutAction;

@@ -7,6 +7,7 @@ import {
   SET_TOKEN,
   SET_STATE,
   SET_FETCHED,
+  LOGOUT,
 } from "./types";
 
 const initialState: UserState = {
@@ -42,6 +43,10 @@ const UserReducer = (state = initialState, action: UserAction): UserState => {
 
     case SET_FETCHED: {
       return { ...state, fetched: action.fetched };
+    }
+
+    case LOGOUT: {
+      return initialState;
     }
 
     default:

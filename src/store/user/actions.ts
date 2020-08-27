@@ -6,6 +6,7 @@ import {
   SET_STATE,
   SET_TOKEN,
   SET_FETCHED,
+  LOGOUT,
 } from "./types";
 
 import { Repository } from "../../types";
@@ -38,4 +39,8 @@ export const setToken = (token: string): UserAction => {
 
 export const setFetched = (fetched: boolean): UserAction => {
   return { type: SET_FETCHED, fetched };
+};
+
+export const logout = (): UserAction => {
+  return { type: LOGOUT };
 };
