@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import moment from 'moment';
+import { parseJSON, format } from 'date-fns';
 
 import { Repository } from '../../types';
 
@@ -17,7 +17,7 @@ const Repo: FunctionComponent<Props> = (props: Props) => {
         <h1>
           <a href={props.repository.html_url}>{props.repository.name}</a>
         </h1>
-        <time>{moment(props.repository.created_at).format('MMMM Do YYYY')}</time>
+        <time>{format(parseJSON(props.repository.created_at), 'PPP')}</time>
         {props.repository.description}
       </div>
     </li>

@@ -19,7 +19,7 @@ const initialState: UserState = {
   fetched: false
 };
 
-const UserReducer = (state = initialState, action: UserAction): UserState => {
+export const UserReducer = (state = initialState, action: UserAction): UserState => {
   switch (action.type) {
     case SET_USERNAME: {
       return { ...state, username: action.username };
@@ -53,5 +53,3 @@ const UserReducer = (state = initialState, action: UserAction): UserState => {
       return state;
   }
 };
-
-export default UserReducer;

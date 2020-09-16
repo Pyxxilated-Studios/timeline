@@ -1,13 +1,14 @@
 import React, { useEffect, FunctionComponent } from 'react';
+import { parseJSON, compareAsc } from 'date-fns';
+
+import { UserState } from '../../store/user/types';
+import { RootState } from '../../store';
+import { connect } from 'react-redux';
+import { PreferencesState } from '../../store/preferences/types';
 
 import Repo from '../repo';
 
 import './styles.css';
-import { UserState } from '../../store/user/types';
-import { RootState } from '../../store';
-import { connect } from 'react-redux';
-
-import moment from 'moment';
 
 // check if an element is in viewport
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
@@ -35,14 +36,15 @@ const callbackFunc = (): void => {
 
 interface StateProps {
   user: UserState;
+  preferences: PreferencesState;
 }
 
 type Props = StateProps;
 
 const Timeline: FunctionComponent<Props> = (props: Props) => {
-  useEffect(() => {
-    callbackFunc();
+  callbackFunc();
 
+  useEffect(() => {
     // listen for events
     // window.addEventListener("load", callbackFunc);
     window.addEventListener('resize', callbackFunc);
@@ -59,7 +61,15 @@ const Timeline: FunctionComponent<Props> = (props: Props) => {
     <section className="timeline" id="timeline">
       <ul>
         {props.user.repositories
-          .sort((r1, r2) => moment(r1.created_at).diff(moment(r2.created_at)))
+          .sort((r1, r2) => {
+            const diff = compareAsc(parseJSON(r1.created_at), parseJSON(r2.created_at));
+
+            if (props.preferences.order === 'oldestFirst') {
+              return diff;
+            } else {
+              return -diff;
+            }
+          })
           .map((repo, idx) => (
             <Repo key={repo.id} side={idx % 2 === 0 ? 'left' : 'right'} repository={repo} />
           ))}
@@ -69,7 +79,8 @@ const Timeline: FunctionComponent<Props> = (props: Props) => {
 };
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  user: state.user
+  user: state.user,
+  preferences: state.preferences
 });
 
 export default connect(mapStateToProps)(Timeline);
