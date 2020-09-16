@@ -1,5 +1,5 @@
 import React, { useEffect, FunctionComponent } from 'react';
-import { parseJSON } from 'date-fns';
+import { parseJSON, compareAsc } from 'date-fns';
 
 import { UserState } from '../../store/user/types';
 import { RootState } from '../../store';
@@ -9,7 +9,6 @@ import { PreferencesState } from '../../store/preferences/types';
 import Repo from '../repo';
 
 import './styles.css';
-import { compareAsc } from 'date-fns/esm';
 
 // check if an element is in viewport
 // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
@@ -43,9 +42,9 @@ interface StateProps {
 type Props = StateProps;
 
 const Timeline: FunctionComponent<Props> = (props: Props) => {
-  useEffect(() => {
-    callbackFunc();
+  callbackFunc();
 
+  useEffect(() => {
     // listen for events
     // window.addEventListener("load", callbackFunc);
     window.addEventListener('resize', callbackFunc);

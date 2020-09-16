@@ -8,7 +8,7 @@ import { UserState } from '../../store/user/types';
 
 import Header from '../../components/header';
 import Timeline from '../../components/timeline';
-import { setRepositories, setFetched, logout } from '../../store/user/actions';
+import { setRepositories, setFetched } from '../../store/user/actions';
 import { Repository } from '../../types';
 
 interface StateProps {
@@ -63,11 +63,7 @@ const LoadTimeline = connect(
   return <Timeline />;
 });
 
-interface TimelineDispatchProps {
-  logout: () => void;
-}
-
-type TimelineProps = StateProps & TimelineDispatchProps;
+type TimelineProps = StateProps;
 
 const TimelinePage: FunctionComponent<TimelineProps> = (props: TimelineProps) => {
   if (!props.user.loggedIn) {
@@ -80,29 +76,8 @@ const TimelinePage: FunctionComponent<TimelineProps> = (props: TimelineProps) =>
       <Suspense fallback={<h1>Fetching Repositories...</h1>}>
         <LoadTimeline />
       </Suspense>
-      <div style={{ placeContent: 'center', display: 'flex' }}>
-        <button
-          style={{
-            fontSize: '1.2em',
-            fontWeight: 'bold',
-            backgroundColor: '#f45b69',
-            color: '#fff',
-            border: 'none',
-            boxShadow: '0px 0px 1em black',
-            padding: '.25em',
-            borderRadius: '.5em',
-            cursor: 'pointer'
-          }}
-          onClick={props.logout}>
-          Logout
-        </button>
-      </div>
     </>
   );
 };
 
-const mapDispatchToTimelineProps = (dispatch: RootDispatch): TimelineDispatchProps => ({
-  logout: (): void => dispatch(logout())
-});
-
-export default connect(mapStateToProps, mapDispatchToTimelineProps)(TimelinePage);
+export default connect(mapStateToProps)(TimelinePage);

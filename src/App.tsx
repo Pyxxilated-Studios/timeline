@@ -7,11 +7,14 @@ import TimelinePage from './pages/timeline';
 import VerifyLoginPage from './pages/verify';
 import PreferencesPage from './pages/preferences';
 
+import NavigationPane from './components/navigation';
+
 import './App.css';
 
 const App: FunctionComponent = () => {
   return (
     <Router basename={process.env.PUBLIC_URL}>
+      <NavigationPane />
       <Switch>
         <Route path="/" exact component={LandingPage} />
         <Route path="/timeline" component={TimelinePage} />
