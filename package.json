@@ -20,6 +20,11 @@
     "typescript": "~3.7.2",
     "uuid": "^8.3.0"
   },
+  "resolutions": {
+    "node-forge": "^0.10.0",
+    "chokidar": "^3.0.0",
+    "core-js": "^3.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
