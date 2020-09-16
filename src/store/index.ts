@@ -4,10 +4,12 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
-import UserReducer from './user/reducer';
+import { UserReducer } from './user/reducer';
+import { PreferencesReducer } from './preferences/reducer';
 
 const rootReducer = combineReducers({
-  user: UserReducer
+  user: UserReducer,
+  preferences: PreferencesReducer
 });
 
 const persistConfig = {
