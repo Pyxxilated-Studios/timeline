@@ -19,6 +19,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const store = createStore(
   persistedReducer,
   compose(
@@ -34,4 +35,5 @@ export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type RootDispatch = Dispatch<AnyAction> & ThunkDispatch<RootState, unknown, AnyAction>;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type RootThunk = ThunkAction<any, RootState, unknown, Action<string | void | boolean>>;
